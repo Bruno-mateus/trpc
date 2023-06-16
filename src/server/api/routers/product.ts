@@ -12,12 +12,15 @@ const LanguageSchema = z.object({
   }),
 });
 
-const ProductSchema = z.object({
-  name: z.string(),
-  subtitle: z.string(),
-  description: z.string(),
-  price: z.number(),
-  translations: z.array(LanguageSchema),
+export const ProductSchema = z.object({
+  name: z.string().min(3, {message:"Name must be at least 3 characters long"}).refine(value=>value.trim().length>0,
+  {message:"Name must be at least 3 characters long"}),
+  subtitle: z.string().min(4,{message:"Name must be at least 4 characters long"}).refine(value=>value.trim().length>0,
+  {message:"Name must be at least 4 characters long"}),
+  description: z.string().min(20,{message:"Name must be at least 20 characters long"}).refine(value=>value.trim().length>0,
+  {message:"Name must be at least 20 characters long"}),
+  price: z.number().refine(value=> value>=0, {message:"invalid value" }),
+  translations: z.array(LanguageSchema)
 });
 
 const TranslationSchema = z.object({
